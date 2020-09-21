@@ -1,0 +1,36 @@
+{%extends "layout.html" %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block main %}
+    <form onsubmit="return validate()" id="form" action="/" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="search" placeholder="Book Title/Author/ISBN" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+
+    {% if result != None %}
+    <ul>
+        {% for r in result %}
+            <li><a href="/book/{{ r[1] }}">{{ r[0] }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <script>
+        function validate(){
+            var s = document.getElementById("form").search.value;
+            if (s == ""){
+                alert("Search box is Empty");
+                document.getElementsByName("search").focus();
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+    </script>
+{% endblock %}

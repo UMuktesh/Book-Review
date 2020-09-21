@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ info[2] }}
+{% endblock %}
+
+{% block styling %}
+#show{
+    width:48px;
+    height:30px;
+    padding:10px;
+    mardin:10px;
+}
+{% endblock %}
+
+{% block main %}
+    <b>Title</b> : {{ info[2] }}<br />
+    <b>Author</b> : {{ info[3] }}<br />
+    <b>Publication Year</b> : {{ info[4] }}<br />
+    <b>ISBN Number</b> : {{ info[1] }}<br />
+    <b>Goodreads Work Ratings Count</b> : {{ wrc }}<br />
+    <b>Goodreads Average Rating</b> : {{ ar }}<br />
+    <b>Review Count</b> : {{ val[1] }}<br />
+    <b>Average Score</b> : {{ val[0] }}<br />
+
+    {% if nreviewed %}
+        <form action="/book/{{ info[1] }}" method="post">
+            Rating : <input type="range" min="0" max="5" name="rating" onchange="updateTextInput(this.value);">
+                    <input  type="number" maxlength="1" id="show" readonly>
+            <div class="form-group">
+            <textarea name="review" placeholder="Review" cols="45" type="text"></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit Review</button>
+        </form>
+    {% else %}
+        <br/><b>Thanks for the review</b>
+    {% endif %}
+
+    <br/>
+    <b>Reviews: </b>
+    <ul>
+    {% for review in reviews %}
+        <li>{{ review[0] }}</li>
+    {% endfor %}
+    </ul>
+
+    <script>
+        function updateTextInput(val) {
+          document.getElementById('show').value=val; 
+        }
+    </script>
+{% endblock %}
